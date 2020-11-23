@@ -171,21 +171,21 @@ uint16_t LapI2CTop::discoverTopology(uint8_t level, uint16_t parent, uint8_t bus
       if(!dev) {
         break;
       } else {
-    for(uint8_t l = 0; l < foundSoFar; l++) {
-      if(foundAddresses[l] == dev) {
-        skip = true;
-        break;
-      }
-    }
-    if(!skip) {
-        if(dev >= 0x70 && dev <= 0x77) {
-          lastDevice = thisLevelMuxes[thisLevelCount++] = addDevice(dev, parent, bus);
-        } else {
-          lastDevice = addDevice(dev, parent, bus);
+        for(uint8_t l = 0; l < foundSoFar; l++) {
+          if(foundAddresses[l] == dev) {
+            skip = true;
+            break;
+          }
         }
-        foundAddresses[foundSoFar++] = dev;
+        if(!skip) {
+            if(dev >= 0x70 && dev <= 0x77) {
+              lastDevice = thisLevelMuxes[thisLevelCount++] = addDevice(dev, parent, bus);
+            } else {
+              lastDevice = addDevice(dev, parent, bus);
+            }
+          foundAddresses[foundSoFar++] = dev;
+        }
       }
-    }
     }
     dev++;
   }
