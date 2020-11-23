@@ -1,0 +1,9 @@
+LapI2CTop	KEYWORD1
+setBus	KEYWORD2
+disableBus	KEYWORD2
+getID	KEYWORD2
+getAddress	KEYWORD2
+getBus	KEYWORD2
+getParent	KEYWORD2
+rescan	KEYWORD2
+getScans	KEYWORD2
