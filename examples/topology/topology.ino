@@ -35,7 +35,6 @@ void loop() {
   Serial.print(" milliseconds, having scanned for ");
   Serial.print(i2c.getScans());
   Serial.println(" potential devices");
-  numberOfDevices = i2c.rescan();
   dumpTopology();
   delay(20000);
 }
