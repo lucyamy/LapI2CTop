@@ -46,6 +46,8 @@ LapI2CTop::LapI2CTop(uint8_t muxReset, TwoWire *wi) {
 
 uint16_t LapI2CTop::begin() {
   wire->begin();
+  if(muxPin == -1)          // Extra scan if no reset pin. The first scan will rest all the muxes.
+    rescan();
   return rescan();
 }
 
