@@ -1,7 +1,7 @@
 # LapI2CTop
 LapI2CTop supports a branched topology I2C network, using the ubiquitous TCA9748 multiplexers. It performs discovery to find each I2C device on the bus, and assigns each a deviceID that can be used to setup the path to that device. There is a configurable limit of 64 I2C devices. If you need more you can change that. All that is needed to access a device anywhere on the bus is a call to **setbus(deviceID)** before talking to it. You then use the usual **Wire** calls to access the device. It's that simple.
 
-If you connect the multiplexers' reset pins to the Arduino, **LapI2CTop** will reset them before performing discovery. This removes the potential problem of I2C bus paths through multiplexers being enabled that the library doesn’t know about, which could cause issues. If you’re performing discovery right after powering on the system, that won’t be a problem, of course, as the multiplexers will reset themselves.
+If you connect the multiplexers' reset pins to the Arduino, **LapI2CTop** will reset them before performing discovery. This removes the potential problem of I2C bus paths through multiplexers being enabled that the library doesn’t know about, which could cause issues. **LapI2cTop** avoids this by scanning twice if there is no reset pin. The first scan will disable all mux busses, effectively resetting them. If you’re performing discovery right after powering on the system, that won’t be a problem, of course, as the multiplexers will reset themselves.
 
 **LapI2CTop** is used with I2C busses set up like this (for example. The TCA9548s have 8 multiplexed busses, but there are only 7 in the drawing to keep it neat):
 
@@ -34,7 +34,7 @@ If you connect the multiplexers' reset pins to the Arduino, **LapI2CTop** will r
 
   **LapI2CTop (uint8_t *muxResetPin*, TwoWire \**wire*);** 
 
-Neither parameter is required. If you don’t specify a reset pin, or give one of -1, then **LapI2CTop** won’t reset the multiplexers. If you don’t specify a Wire interface, it will use **Wire**. So to use **Wire1**, invoke **LapI2CTop** as:
+Neither parameter is required. If you don’t specify a reset pin, or give one of -1, then **LapI2CTop** won’t reset the multiplexers, but will scan twice instead, to make sure all busses are disabled before the second scan. If you don’t specify a Wire interface, it will use **Wire**. So to use **Wire1**, invoke **LapI2CTop** as:
 
   **LapI2CTop (&Wire1);** 
 
